@@ -5,15 +5,17 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: dukkan (shop., :8082), raseed (cash., :8091), khatm (stamps., :8085), hader (team., :8090), fatoora (invoices., :8086)
+# Tools: makhzan (pos., :8095), dukkan (shop., :8082), raseed (cash., :8091), khatm (stamps., :8085), hamla (campaigns., :8098), hader (team., :8090), fatoora (invoices., :8086)
 services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on:
+      - makhzan
       - dukkan
       - raseed
       - khatm
+      - hamla
       - hader
       - fatoora
     environment:
@@ -23,9 +25,11 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+      - "8095:8095"
       - "8082:8082"
       - "8091:8091"
       - "8085:8085"
+      - "8098:8098"
       - "8090:8090"
       - "8086:8086"
     entrypoint: ["/bin/sh", "-c"]
@@ -51,7 +55,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"hader","sub":"team","port":8090,"icon":"⏱️","en":"Staff attendance by QR, leave and payroll","ar":"حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"}];
+        var APPS = [{"id":"makhzan","sub":"pos","port":8095,"icon":"📦","en":"Inventory and point of sale with barcodes","ar":"مخزن وكاشير بالباركود"},{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"hamla","sub":"campaigns","port":8098,"icon":"💬","en":"WhatsApp campaigns through the official API, with consent and unsubscribe","ar":"حملات واتساب بالـ API الرسمي، بموافقة العميل وإلغاء اشتراك"},{"id":"hader","sub":"team","port":8090,"icon":"⏱️","en":"Staff attendance by QR, leave and payroll","ar":"حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -69,6 +73,9 @@ services:
         	root * /srv
         	file_server
         }
+        :8095 {
+        	reverse_proxy makhzan:3000
+        }
         :8082 {
         	reverse_proxy dukkan:3000
         }
@@ -77,6 +84,9 @@ services:
         }
         :8085 {
         	reverse_proxy khatm:3000
+        }
+        :8098 {
+        	reverse_proxy hamla:3000
         }
         :8090 {
         	reverse_proxy hader:3000
@@ -91,6 +101,9 @@ services:
         	root * /srv
         	file_server
         }
+        pos.{$$DOMAIN} {
+        	reverse_proxy makhzan:3000
+        }
         shop.{$$DOMAIN} {
         	reverse_proxy dukkan:3000
         }
@@ -99,6 +112,9 @@ services:
         }
         stamps.{$$DOMAIN} {
         	reverse_proxy khatm:3000
+        }
+        campaigns.{$$DOMAIN} {
+        	reverse_proxy hamla:3000
         }
         team.{$$DOMAIN} {
         	reverse_proxy hader:3000
@@ -112,6 +128,18 @@ services:
     volumes:
       - caddy-data:/data
       - caddy-config:/config
+
+  makhzan:
+    image: ghcr.io/mashraf1997/makhzan:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - makhzan-data:/data
+    expose:
+      - "3000"
 
   dukkan:
     image: ghcr.io/mashraf1997/dukkan:latest
@@ -149,6 +177,18 @@ services:
     expose:
       - "3000"
 
+  hamla:
+    image: ghcr.io/mashraf1997/hamla:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - hamla-data:/data
+    expose:
+      - "3000"
+
   hader:
     image: ghcr.io/mashraf1997/hader:latest
     restart: unless-stopped
@@ -176,8 +216,10 @@ services:
 volumes:
   caddy-data:
   caddy-config:
+  makhzan-data:
   dukkan-data:
   raseed-data:
   khatm-data:
+  hamla-data:
   hader-data:
   fatoora-data:

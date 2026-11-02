@@ -5,7 +5,7 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: wakeel (chat., :8081), nashr (posts., :8084), fatoora (invoices., :8086), daleel (guide., :8088)
+# Tools: wakeel (chat., :8081), nashr (posts., :8084), hamla (campaigns., :8098), takyeem (reviews., :8093), fatoora (invoices., :8086), daleel (guide., :8088)
 services:
   caddy:
     image: caddy:2-alpine
@@ -13,6 +13,8 @@ services:
     depends_on:
       - wakeel
       - nashr
+      - hamla
+      - takyeem
       - fatoora
       - daleel
     environment:
@@ -24,6 +26,8 @@ services:
       - "443:443/udp"
       - "8081:8081"
       - "8084:8084"
+      - "8098:8098"
+      - "8093:8093"
       - "8086:8086"
       - "8088:8088"
     entrypoint: ["/bin/sh", "-c"]
@@ -49,7 +53,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"daleel","sub":"guide","port":8088,"icon":"📍","en":"Directory website for places and services","ar":"موقع دليل للأماكن والخدمات"}];
+        var APPS = [{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"},{"id":"hamla","sub":"campaigns","port":8098,"icon":"💬","en":"WhatsApp campaigns through the official API, with consent and unsubscribe","ar":"حملات واتساب بالـ API الرسمي، بموافقة العميل وإلغاء اشتراك"},{"id":"takyeem","sub":"reviews","port":8093,"icon":"⭐","en":"Google reviews: ask every customer by QR, hear complaints privately first","ar":"تقييمات جوجل: اطلب التقييم من كل عميل بـ QR واسمع الشكوى الأول"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"daleel","sub":"guide","port":8088,"icon":"📍","en":"Directory website for places and services","ar":"موقع دليل للأماكن والخدمات"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -73,6 +77,12 @@ services:
         :8084 {
         	reverse_proxy nashr:3000
         }
+        :8098 {
+        	reverse_proxy hamla:3000
+        }
+        :8093 {
+        	reverse_proxy takyeem:3000
+        }
         :8086 {
         	reverse_proxy fatoora:3000
         }
@@ -91,6 +101,12 @@ services:
         }
         posts.{$$DOMAIN} {
         	reverse_proxy nashr:3000
+        }
+        campaigns.{$$DOMAIN} {
+        	reverse_proxy hamla:3000
+        }
+        reviews.{$$DOMAIN} {
+        	reverse_proxy takyeem:3000
         }
         invoices.{$$DOMAIN} {
         	reverse_proxy fatoora:3000
@@ -131,6 +147,30 @@ services:
     expose:
       - "3000"
 
+  hamla:
+    image: ghcr.io/mashraf1997/hamla:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - hamla-data:/data
+    expose:
+      - "3000"
+
+  takyeem:
+    image: ghcr.io/mashraf1997/takyeem:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - takyeem-data:/data
+    expose:
+      - "3000"
+
   fatoora:
     image: ghcr.io/mashraf1997/fatoora:latest
     restart: unless-stopped
@@ -160,5 +200,7 @@ volumes:
   caddy-config:
   wakeel-data:
   nashr-data:
+  hamla-data:
+  takyeem-data:
   fatoora-data:
   daleel-data:

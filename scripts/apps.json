@@ -10,7 +10,8 @@
       ],
       "icon": "🤖",
       "en": "AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website",
-      "ar": "موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"
+      "ar": "موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك",
+      "shot": "demo.gif"
     },
     {
       "id": "dukkan",
@@ -20,7 +21,8 @@
       "extraEnv": [],
       "icon": "🛒",
       "en": "WhatsApp ordering store and QR menu",
-      "ar": "متجر طلبات على واتساب ومنيو QR"
+      "ar": "متجر طلبات على واتساب ومنيو QR",
+      "shot": "hero.png"
     },
     {
       "id": "mawid",
@@ -30,7 +32,8 @@
       "extraEnv": [],
       "icon": "📅",
       "en": "Your own booking page",
-      "ar": "صفحة حجز مواعيد"
+      "ar": "صفحة حجز مواعيد",
+      "shot": "hero.png"
     },
     {
       "id": "nashr",
@@ -42,7 +45,8 @@
       ],
       "icon": "📣",
       "en": "AI-written social media posts, published on schedule",
-      "ar": "بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"
+      "ar": "بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي",
+      "shot": "posts.png"
     },
     {
       "id": "khatm",
@@ -52,7 +56,8 @@
       "extraEnv": [],
       "icon": "☕",
       "en": "Digital loyalty stamp card",
-      "ar": "كارت ولاء ديجيتال بالأختام"
+      "ar": "كارت ولاء ديجيتال بالأختام",
+      "shot": "flow.png"
     },
     {
       "id": "fatoora",
@@ -62,7 +67,8 @@
       "extraEnv": [],
       "icon": "🧾",
       "en": "Invoices and quotes in Arabic and English",
-      "ar": "فواتير وعروض أسعار عربي وإنجليزي"
+      "ar": "فواتير وعروض أسعار عربي وإنجليزي",
+      "shot": "invoice.png"
     },
     {
       "id": "moallem",
@@ -72,7 +78,8 @@
       "extraEnv": [],
       "icon": "🎓",
       "en": "Attendance, fees and results for private tutors",
-      "ar": "حضور ومصاريف ونتايج للمدرسين الخصوصيين"
+      "ar": "حضور ومصاريف ونتايج للمدرسين الخصوصيين",
+      "shot": "today.png"
     },
     {
       "id": "daleel",
@@ -82,7 +89,8 @@
       "extraEnv": [],
       "icon": "📍",
       "en": "Directory website for places and services",
-      "ar": "موقع دليل للأماكن والخدمات"
+      "ar": "موقع دليل للأماكن والخدمات",
+      "shot": "home.png"
     },
     {
       "id": "dor",
@@ -92,7 +100,8 @@
       "extraEnv": [],
       "icon": "🎫",
       "en": "Virtual queue: customers take a number by QR and wait anywhere",
-      "ar": "طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة"
+      "ar": "طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة",
+      "shot": "display.png"
     },
     {
       "id": "hader",
@@ -102,7 +111,8 @@
       "extraEnv": [],
       "icon": "⏱️",
       "en": "Staff attendance by QR, leave and payroll",
-      "ar": "حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"
+      "ar": "حضور وانصراف الموظفين بـ QR وإجازات ومرتبات",
+      "shot": "flow.png"
     },
     {
       "id": "raseed",
@@ -112,7 +122,8 @@
       "extraEnv": [],
       "icon": "💰",
       "en": "Cash book and customer credit for shops",
-      "ar": "دفتر الخزنة والشُكُك للمحلات"
+      "ar": "دفتر الخزنة والشُكُك للمحلات",
+      "shot": "home.png"
     },
     {
       "id": "doroos",
@@ -124,7 +135,74 @@
       ],
       "icon": "📚",
       "en": "Sell your own online courses",
-      "ar": "بيع كورساتك أونلاين من موقعك"
+      "ar": "بيع كورساتك أونلاين من موقعك",
+      "shot": "course.png"
+    },
+    {
+      "id": "takyeem",
+      "sub": "reviews",
+      "port": 8093,
+      "setupVar": "SETUP_TOKEN",
+      "extraEnv": [],
+      "icon": "⭐",
+      "en": "Google reviews: ask every customer by QR, hear complaints privately first",
+      "ar": "تقييمات جوجل: اطلب التقييم من كل عميل بـ QR واسمع الشكوى الأول",
+      "shot": "overview.png"
+    },
+    {
+      "id": "siyana",
+      "sub": "repairs",
+      "port": 8094,
+      "setupVar": "SETUP_TOKEN",
+      "extraEnv": [],
+      "icon": "🔧",
+      "en": "Repair shop jobs: intake, quote approval, tracking page and receipts",
+      "ar": "ورشة الصيانة: استلام الجهاز وموافقة العميل على السعر وصفحة متابعة وإيصال",
+      "shot": "board.png"
+    },
+    {
+      "id": "makhzan",
+      "sub": "pos",
+      "port": 8095,
+      "setupVar": "SETUP_TOKEN",
+      "extraEnv": [],
+      "icon": "📦",
+      "en": "Inventory and point of sale with barcodes",
+      "ar": "مخزن وكاشير بالباركود",
+      "shot": "pos.png"
+    },
+    {
+      "id": "kashf",
+      "sub": "clinic",
+      "port": 8096,
+      "setupVar": "SETUP_TOKEN",
+      "extraEnv": [],
+      "icon": "🩺",
+      "en": "Patient records and prescriptions for small clinics",
+      "ar": "ملفات المرضى والروشتات للعيادات",
+      "shot": "today.png"
+    },
+    {
+      "id": "aqar",
+      "sub": "rent",
+      "port": 8097,
+      "setupVar": "SETUP_TOKEN",
+      "extraEnv": [],
+      "icon": "🏢",
+      "en": "Rental manager: leases, rent, arrears and tenant pages",
+      "ar": "إدارة الإيجارات: العقود والإيجار والمتأخرات وصفحة لكل ساكن",
+      "shot": "home.png"
+    },
+    {
+      "id": "hamla",
+      "sub": "campaigns",
+      "port": 8098,
+      "setupVar": "SETUP_TOKEN",
+      "extraEnv": [],
+      "icon": "💬",
+      "en": "WhatsApp campaigns through the official API, with consent and unsubscribe",
+      "ar": "حملات واتساب بالـ API الرسمي، بموافقة العميل وإلغاء اشتراك",
+      "shot": "home.png"
     }
   ],
   "packs": {
@@ -143,17 +221,24 @@
         "dor",
         "hader",
         "raseed",
-        "doroos"
+        "doroos",
+        "takyeem",
+        "siyana",
+        "makhzan",
+        "kashf",
+        "aqar",
+        "hamla"
       ]
     },
     "packs/clinic.yml": {
       "en": "Clinic and salon pack",
       "ar": "باقة العيادة والصالون",
       "apps": [
+        "kashf",
         "mawid",
         "dor",
+        "takyeem",
         "wakeel",
-        "fatoora",
         "hader"
       ]
     },
@@ -162,8 +247,10 @@
       "ar": "باقة المطعم والكافيه",
       "apps": [
         "dukkan",
-        "wakeel",
+        "makhzan",
         "khatm",
+        "takyeem",
+        "hamla",
         "raseed",
         "nashr"
       ]
@@ -172,9 +259,11 @@
       "en": "Shop pack",
       "ar": "باقة المحل",
       "apps": [
+        "makhzan",
         "dukkan",
         "raseed",
         "khatm",
+        "hamla",
         "hader",
         "fatoora"
       ]
@@ -195,8 +284,57 @@
       "apps": [
         "wakeel",
         "nashr",
+        "hamla",
+        "takyeem",
         "fatoora",
         "daleel"
+      ]
+    },
+    "packs/repair.yml": {
+      "en": "Repair shop pack",
+      "ar": "باقة ورشة الصيانة",
+      "apps": [
+        "siyana",
+        "makhzan",
+        "raseed",
+        "fatoora",
+        "takyeem"
+      ]
+    },
+    "packs/property.yml": {
+      "en": "Landlord and real estate pack",
+      "ar": "باقة الملاك والعقارات",
+      "apps": [
+        "aqar",
+        "raseed",
+        "fatoora",
+        "wakeel",
+        "daleel"
+      ]
+    },
+    "packs/demo.yml": {
+      "en": "Live demo of every tool",
+      "ar": "ديمو لايف لكل الأدوات",
+      "demo": true,
+      "apps": [
+        "wakeel",
+        "dukkan",
+        "mawid",
+        "nashr",
+        "khatm",
+        "fatoora",
+        "moallem",
+        "daleel",
+        "dor",
+        "hader",
+        "raseed",
+        "doroos",
+        "takyeem",
+        "siyana",
+        "makhzan",
+        "kashf",
+        "aqar",
+        "hamla"
       ]
     }
   }

@@ -5,7 +5,7 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: wakeel (chat., :8081), dukkan (shop., :8082), mawid (book., :8083), nashr (posts., :8084), khatm (stamps., :8085), fatoora (invoices., :8086), moallem (classes., :8087), daleel (guide., :8088), dor (queue., :8089), hader (team., :8090), raseed (cash., :8091), doroos (learn., :8092)
+# Tools: wakeel (chat., :8081), dukkan (shop., :8082), mawid (book., :8083), nashr (posts., :8084), khatm (stamps., :8085), fatoora (invoices., :8086), moallem (classes., :8087), daleel (guide., :8088), dor (queue., :8089), hader (team., :8090), raseed (cash., :8091), doroos (learn., :8092), takyeem (reviews., :8093), siyana (repairs., :8094), makhzan (pos., :8095), kashf (clinic., :8096), aqar (rent., :8097), hamla (campaigns., :8098)
 services:
   caddy:
     image: caddy:2-alpine
@@ -23,6 +23,12 @@ services:
       - hader
       - raseed
       - doroos
+      - takyeem
+      - siyana
+      - makhzan
+      - kashf
+      - aqar
+      - hamla
     environment:
       - DOMAIN=${DOMAIN:-}
       - ACME_EMAIL=${ACME_EMAIL:-}
@@ -42,6 +48,12 @@ services:
       - "8090:8090"
       - "8091:8091"
       - "8092:8092"
+      - "8093:8093"
+      - "8094:8094"
+      - "8095:8095"
+      - "8096:8096"
+      - "8097:8097"
+      - "8098:8098"
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
@@ -65,7 +77,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"mawid","sub":"book","port":8083,"icon":"📅","en":"Your own booking page","ar":"صفحة حجز مواعيد"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"moallem","sub":"classes","port":8087,"icon":"🎓","en":"Attendance, fees and results for private tutors","ar":"حضور ومصاريف ونتايج للمدرسين الخصوصيين"},{"id":"daleel","sub":"guide","port":8088,"icon":"📍","en":"Directory website for places and services","ar":"موقع دليل للأماكن والخدمات"},{"id":"dor","sub":"queue","port":8089,"icon":"🎫","en":"Virtual queue: customers take a number by QR and wait anywhere","ar":"طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة"},{"id":"hader","sub":"team","port":8090,"icon":"⏱️","en":"Staff attendance by QR, leave and payroll","ar":"حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"doroos","sub":"learn","port":8092,"icon":"📚","en":"Sell your own online courses","ar":"بيع كورساتك أونلاين من موقعك"}];
+        var APPS = [{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"mawid","sub":"book","port":8083,"icon":"📅","en":"Your own booking page","ar":"صفحة حجز مواعيد"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"moallem","sub":"classes","port":8087,"icon":"🎓","en":"Attendance, fees and results for private tutors","ar":"حضور ومصاريف ونتايج للمدرسين الخصوصيين"},{"id":"daleel","sub":"guide","port":8088,"icon":"📍","en":"Directory website for places and services","ar":"موقع دليل للأماكن والخدمات"},{"id":"dor","sub":"queue","port":8089,"icon":"🎫","en":"Virtual queue: customers take a number by QR and wait anywhere","ar":"طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة"},{"id":"hader","sub":"team","port":8090,"icon":"⏱️","en":"Staff attendance by QR, leave and payroll","ar":"حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"doroos","sub":"learn","port":8092,"icon":"📚","en":"Sell your own online courses","ar":"بيع كورساتك أونلاين من موقعك"},{"id":"takyeem","sub":"reviews","port":8093,"icon":"⭐","en":"Google reviews: ask every customer by QR, hear complaints privately first","ar":"تقييمات جوجل: اطلب التقييم من كل عميل بـ QR واسمع الشكوى الأول"},{"id":"siyana","sub":"repairs","port":8094,"icon":"🔧","en":"Repair shop jobs: intake, quote approval, tracking page and receipts","ar":"ورشة الصيانة: استلام الجهاز وموافقة العميل على السعر وصفحة متابعة وإيصال"},{"id":"makhzan","sub":"pos","port":8095,"icon":"📦","en":"Inventory and point of sale with barcodes","ar":"مخزن وكاشير بالباركود"},{"id":"kashf","sub":"clinic","port":8096,"icon":"🩺","en":"Patient records and prescriptions for small clinics","ar":"ملفات المرضى والروشتات للعيادات"},{"id":"aqar","sub":"rent","port":8097,"icon":"🏢","en":"Rental manager: leases, rent, arrears and tenant pages","ar":"إدارة الإيجارات: العقود والإيجار والمتأخرات وصفحة لكل ساكن"},{"id":"hamla","sub":"campaigns","port":8098,"icon":"💬","en":"WhatsApp campaigns through the official API, with consent and unsubscribe","ar":"حملات واتساب بالـ API الرسمي، بموافقة العميل وإلغاء اشتراك"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -119,6 +131,24 @@ services:
         :8092 {
         	reverse_proxy doroos:3000
         }
+        :8093 {
+        	reverse_proxy takyeem:3000
+        }
+        :8094 {
+        	reverse_proxy siyana:3000
+        }
+        :8095 {
+        	reverse_proxy makhzan:3000
+        }
+        :8096 {
+        	reverse_proxy kashf:3000
+        }
+        :8097 {
+        	reverse_proxy aqar:3000
+        }
+        :8098 {
+        	reverse_proxy hamla:3000
+        }
         CADDY
         if [ -n "$$DOMAIN" ]; then
         cat >> /etc/caddy/Caddyfile <<'CADDY'
@@ -161,6 +191,24 @@ services:
         }
         learn.{$$DOMAIN} {
         	reverse_proxy doroos:3000
+        }
+        reviews.{$$DOMAIN} {
+        	reverse_proxy takyeem:3000
+        }
+        repairs.{$$DOMAIN} {
+        	reverse_proxy siyana:3000
+        }
+        pos.{$$DOMAIN} {
+        	reverse_proxy makhzan:3000
+        }
+        clinic.{$$DOMAIN} {
+        	reverse_proxy kashf:3000
+        }
+        rent.{$$DOMAIN} {
+        	reverse_proxy aqar:3000
+        }
+        campaigns.{$$DOMAIN} {
+        	reverse_proxy hamla:3000
         }
         CADDY
         fi
@@ -316,6 +364,78 @@ services:
     expose:
       - "3000"
 
+  takyeem:
+    image: ghcr.io/mashraf1997/takyeem:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - takyeem-data:/data
+    expose:
+      - "3000"
+
+  siyana:
+    image: ghcr.io/mashraf1997/siyana:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - siyana-data:/data
+    expose:
+      - "3000"
+
+  makhzan:
+    image: ghcr.io/mashraf1997/makhzan:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - makhzan-data:/data
+    expose:
+      - "3000"
+
+  kashf:
+    image: ghcr.io/mashraf1997/kashf:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - kashf-data:/data
+    expose:
+      - "3000"
+
+  aqar:
+    image: ghcr.io/mashraf1997/aqar:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - aqar-data:/data
+    expose:
+      - "3000"
+
+  hamla:
+    image: ghcr.io/mashraf1997/hamla:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - hamla-data:/data
+    expose:
+      - "3000"
+
 volumes:
   caddy-data:
   caddy-config:
@@ -331,3 +451,9 @@ volumes:
   hader-data:
   raseed-data:
   doroos-data:
+  takyeem-data:
+  siyana-data:
+  makhzan-data:
+  kashf-data:
+  aqar-data:
+  hamla-data:

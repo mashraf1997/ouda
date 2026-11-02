@@ -5,15 +5,17 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: dukkan (shop., :8082), wakeel (chat., :8081), khatm (stamps., :8085), raseed (cash., :8091), nashr (posts., :8084)
+# Tools: dukkan (shop., :8082), makhzan (pos., :8095), khatm (stamps., :8085), takyeem (reviews., :8093), hamla (campaigns., :8098), raseed (cash., :8091), nashr (posts., :8084)
 services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on:
       - dukkan
-      - wakeel
+      - makhzan
       - khatm
+      - takyeem
+      - hamla
       - raseed
       - nashr
     environment:
@@ -24,8 +26,10 @@ services:
       - "443:443"
       - "443:443/udp"
       - "8082:8082"
-      - "8081:8081"
+      - "8095:8095"
       - "8085:8085"
+      - "8093:8093"
+      - "8098:8098"
       - "8091:8091"
       - "8084:8084"
     entrypoint: ["/bin/sh", "-c"]
@@ -51,7 +55,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
+        var APPS = [{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"makhzan","sub":"pos","port":8095,"icon":"📦","en":"Inventory and point of sale with barcodes","ar":"مخزن وكاشير بالباركود"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"takyeem","sub":"reviews","port":8093,"icon":"⭐","en":"Google reviews: ask every customer by QR, hear complaints privately first","ar":"تقييمات جوجل: اطلب التقييم من كل عميل بـ QR واسمع الشكوى الأول"},{"id":"hamla","sub":"campaigns","port":8098,"icon":"💬","en":"WhatsApp campaigns through the official API, with consent and unsubscribe","ar":"حملات واتساب بالـ API الرسمي، بموافقة العميل وإلغاء اشتراك"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -72,11 +76,17 @@ services:
         :8082 {
         	reverse_proxy dukkan:3000
         }
-        :8081 {
-        	reverse_proxy wakeel:3000
+        :8095 {
+        	reverse_proxy makhzan:3000
         }
         :8085 {
         	reverse_proxy khatm:3000
+        }
+        :8093 {
+        	reverse_proxy takyeem:3000
+        }
+        :8098 {
+        	reverse_proxy hamla:3000
         }
         :8091 {
         	reverse_proxy raseed:3000
@@ -94,11 +104,17 @@ services:
         shop.{$$DOMAIN} {
         	reverse_proxy dukkan:3000
         }
-        chat.{$$DOMAIN} {
-        	reverse_proxy wakeel:3000
+        pos.{$$DOMAIN} {
+        	reverse_proxy makhzan:3000
         }
         stamps.{$$DOMAIN} {
         	reverse_proxy khatm:3000
+        }
+        reviews.{$$DOMAIN} {
+        	reverse_proxy takyeem:3000
+        }
+        campaigns.{$$DOMAIN} {
+        	reverse_proxy hamla:3000
         }
         cash.{$$DOMAIN} {
         	reverse_proxy raseed:3000
@@ -125,16 +141,15 @@ services:
     expose:
       - "3000"
 
-  wakeel:
-    image: ghcr.io/mashraf1997/wakeel:latest
+  makhzan:
+    image: ghcr.io/mashraf1997/makhzan:latest
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - SETUP_TOKEN=${SETUP_TOKEN:-}
       - DEMO_MODE=${DEMO_MODE:-false}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
     volumes:
-      - wakeel-data:/data
+      - makhzan-data:/data
     expose:
       - "3000"
 
@@ -147,6 +162,30 @@ services:
       - DEMO_MODE=${DEMO_MODE:-false}
     volumes:
       - khatm-data:/data
+    expose:
+      - "3000"
+
+  takyeem:
+    image: ghcr.io/mashraf1997/takyeem:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - takyeem-data:/data
+    expose:
+      - "3000"
+
+  hamla:
+    image: ghcr.io/mashraf1997/hamla:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - hamla-data:/data
     expose:
       - "3000"
 
@@ -179,7 +218,9 @@ volumes:
   caddy-data:
   caddy-config:
   dukkan-data:
-  wakeel-data:
+  makhzan-data:
   khatm-data:
+  takyeem-data:
+  hamla-data:
   raseed-data:
   nashr-data:

@@ -1,0 +1,81 @@
+name: "ركّبهالي · Install it for me"
+description: "اطلب تركيب الأدوات على سيرفرك · Ask for the tools to be installed and set up on your server"
+title: "[Install] "
+labels: ["install-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **متكتبش هنا باسورد أو مفاتيح أو بيانات عملاء.** الطلب ده عام وأي حد يقدر يشوفه. هنتواصل معاك ونتفق على الباقي.
+        **Do not write passwords, keys or customer data here.** This request is public. We will contact you to arrange the rest.
+  - type: dropdown
+    id: business
+    attributes:
+      label: "نوع البيزنس · Business type"
+      options:
+        - "مطعم أو كافيه · Restaurant or café"
+        - "محل · Shop"
+        - "عيادة أو صالون · Clinic or salon"
+        - "ورشة صيانة · Repair shop"
+        - "مدرس أو سنتر · Tutor or centre"
+        - "عقارات · Real estate"
+        - "وكالة · Agency"
+        - "حاجة تانية · Something else"
+    validations:
+      required: true
+  - type: dropdown
+    id: plan
+    attributes:
+      label: "الخدمة · Service"
+      options:
+        - "تركيب بس: السيرفر والدومين و HTTPS · Install only: server, domain and HTTPS"
+        - "تركيب وتجهيز: البيانات والقوالب وربط واتساب · Install and set up: data, templates and WhatsApp"
+        - "تركيب وتجهيز وتدريب ومتابعة شهر · Install, set up, training and one month of support"
+    validations:
+      required: true
+  - type: checkboxes
+    id: tools
+    attributes:
+      label: "الأدوات · Tools"
+      options:
+        - label: "Wakeel 🤖"
+        - label: "Dukkan 🛒"
+        - label: "Mawid 📅"
+        - label: "Nashr 📣"
+        - label: "Khatm ☕"
+        - label: "Fatoora 🧾"
+        - label: "Moallem 🎓"
+        - label: "Daleel 📍"
+        - label: "Dor 🎫"
+        - label: "Hader ⏱️"
+        - label: "Raseed 💰"
+        - label: "Doroos 📚"
+        - label: "Takyeem ⭐"
+        - label: "Siyana 🔧"
+        - label: "Makhzan 📦"
+        - label: "Kashf 🩺"
+        - label: "Aqar 🏢"
+        - label: "Hamla 💬"
+        - label: "مش عارف، ساعدني أختار · Not sure, help me choose"
+  - type: dropdown
+    id: server
+    attributes:
+      label: "عندك سيرفر؟ · Do you have a server?"
+      options:
+        - "لأ، ساعدني أشتري واحد · No, help me get one"
+        - "أيوه، Hostinger VPS · Yes, a Hostinger VPS"
+        - "أيوه، حاجة تانية · Yes, something else"
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: "عندك دومين؟ · Do you have a domain?"
+      options:
+        - "لأ · No"
+        - "أيوه · Yes"
+  - type: input
+    id: contact
+    attributes:
+      label: "نتواصل معاك إزاي؟ · How do we reach you?"
+      description: "إيميل أو تليجرام. لو مش عايز تكتبه هنا، هنرد عليك في التعليقات. · Email or Telegram. If you prefer not to share it here, we will reply in the comments."
