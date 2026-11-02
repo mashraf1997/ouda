@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عُدّة · Ouda — أدوات مفتوحة المصدر للبيزنس الصغير</title>
+<meta name="description" content="Open-source tools for small businesses: AI customer service, WhatsApp store, bookings, social media, loyalty cards, invoices, tutoring and directories. One-click deploy.">
+<meta property="og:title" content="عُدّة · Ouda">
+<meta property="og:description" content="كل أدوات البيزنس الصغير، مفتوحة المصدر وبضغطة واحدة.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: a toolbox. Big Kufi headline, a strip of packs, then a grid of tools with real screenshots. */
+:root { --bg: #F4F1EC; --ink: #16130F; --muted: #6A6259; --line: #E1DBD2; --card: #FFFFFF; --accent: #0F6E66; --warm: #C2410C; --display: "Reem Kufi", "IBM Plex Sans Arabic", Tahoma, sans-serif; --body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root { --bg: #12110F; --ink: #EEEAE3; --muted: #A69E93; --line: #2E2A25; --card: #1B1916; --accent: #34C6B8; --warm: #FB923C; color-scheme: dark; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.7 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+header { padding-block: 56px 28px; display: grid; gap: 16px; }
+h1 { font-family: var(--display); font-size: clamp(2.6rem, 8vw, 5rem); line-height: 1.05; margin: 0; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lead { font-size: 1.2rem; color: var(--muted); max-width: 60ch; margin: 0; }
+.lead-en { font-size: 1rem; color: var(--muted); margin: 0; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 2px solid var(--ink); color: var(--ink); }
+.btn.primary { background: var(--ink); color: var(--bg); }
+h2 { font-family: var(--display); font-size: 1.8rem; margin: 0 0 16px; }
+section { padding-block: 28px; }
+.packs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.pack { display: grid; gap: 2px; padding: 16px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: inherit; }
+.pack:hover { border-color: var(--accent); }
+.pack span { color: var(--muted); font-size: .9rem; }
+.pack small { font-size: 1.3rem; letter-spacing: 2px; }
+.apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.app { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: 190px auto; }
+.app img { width: 100%; height: 100%; object-fit: cover; object-position: top; background: var(--line); }
+.app .body { padding: 16px 18px 18px; display: grid; gap: 4px; }
+.app h3 { margin: 0; font-size: 1.25rem; }
+.app p { margin: 0; }
+.app .en { color: var(--muted); font-size: .92rem; }
+.links { display: flex; gap: 14px; margin-top: 8px; align-items: center; }
+.links a { color: var(--accent); font-weight: 700; text-decoration: none; }
+.links a.deploy { background: var(--accent); color: var(--bg); padding: 6px 14px; border-radius: 10px; }
+.why { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.why div { border-top: 3px solid var(--warm); padding-top: 10px; }
+.why b { display: block; font-size: 1.05rem; }
+.why p { margin: 4px 0 0; color: var(--muted); }
+footer { padding-block: 36px 48px; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 24px; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>عُدّة: كل أدوات <em>البيزنس الصغير</em>، مفتوحة المصدر</h1>
+  <p class="lead">موظف ذكاء اصطناعي على واتساب، ومتجر، وحجوزات، وسوشيال ميديا، وكروت ولاء، وفواتير، ونظام للمدرسين، وموقع دليل. بالعربي، على سيرفرك، من غير اشتراكات شهرية.</p>
+  <p class="lead-en" dir="ltr">Open-source tools for small businesses. Arabic and English. Self-hosted. One-click deploy.</p>
+  <div class="cta"><a class="btn primary" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">ركّب كل الأدوات بضغطة</a><a class="btn" href="https://github.com/mashraf1997/ouda">GitHub</a></div>
+</header>
+<main class="wrap">
+  <section><h2>باقات جاهزة</h2><div class="packs">
+      <a class="pack" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE"><b>كل الأدوات</b><span dir="ltr">Everything</span><small>🤖 🛒 📅 📣 ☕ 🧾 🎓 📍</small></a>
+      <a class="pack" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/clinic.yml&REFERRALCODE=YOUR_REFERRAL_CODE"><b>باقة العيادة والصالون</b><span dir="ltr">Clinic and salon pack</span><small>📅 🤖 🧾 📣</small></a>
+      <a class="pack" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/cafe.yml&REFERRALCODE=YOUR_REFERRAL_CODE"><b>باقة المطعم والكافيه</b><span dir="ltr">Restaurant and café pack</span><small>🛒 🤖 ☕ 📣</small></a>
+      <a class="pack" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/tutor.yml&REFERRALCODE=YOUR_REFERRAL_CODE"><b>باقة المدرس</b><span dir="ltr">Teacher pack</span><small>🎓 🧾 📣</small></a>
+      <a class="pack" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/agency.yml&REFERRALCODE=YOUR_REFERRAL_CODE"><b>باقة الوكالة</b><span dir="ltr">Agency pack</span><small>🤖 📣 🧾 📍</small></a>
+  </div></section>
+  <section><h2>الأدوات</h2><div class="apps">
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/wakeel/main/docs/demo.gif" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>🤖</span> Wakeel</h3>
+          <p dir="rtl">موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك</p>
+          <p class="en" dir="ltr">AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/wakeel/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/wakeel">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/dukkan/main/docs/hero.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>🛒</span> Dukkan</h3>
+          <p dir="rtl">متجر طلبات على واتساب ومنيو QR</p>
+          <p class="en" dir="ltr">WhatsApp ordering store and QR menu</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/dukkan/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/dukkan">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/mawid/main/docs/hero.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>📅</span> Mawid</h3>
+          <p dir="rtl">صفحة حجز مواعيد</p>
+          <p class="en" dir="ltr">Your own booking page</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/mawid/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/mawid">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/nashr/main/docs/posts.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>📣</span> Nashr</h3>
+          <p dir="rtl">بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي</p>
+          <p class="en" dir="ltr">AI-written social media posts, published on schedule</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/nashr/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/nashr">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/khatm/main/docs/flow.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>☕</span> Khatm</h3>
+          <p dir="rtl">كارت ولاء ديجيتال بالأختام</p>
+          <p class="en" dir="ltr">Digital loyalty stamp card</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/khatm/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/khatm">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/fatoora/main/docs/invoice.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>🧾</span> Fatoora</h3>
+          <p dir="rtl">فواتير وعروض أسعار عربي وإنجليزي</p>
+          <p class="en" dir="ltr">Invoices and quotes in Arabic and English</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/fatoora/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/fatoora">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/moallem/main/docs/today.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>🎓</span> Moallem</h3>
+          <p dir="rtl">حضور ومصاريف ونتايج للمدرسين الخصوصيين</p>
+          <p class="en" dir="ltr">Attendance, fees and results for private tutors</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/moallem/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/moallem">GitHub</a></div>
+        </div>
+      </article>
+      <article class="app">
+        <img src="https://raw.githubusercontent.com/mashraf1997/daleel/main/docs/home.png" alt="" loading="lazy">
+        <div class="body">
+          <h3><span>📍</span> Daleel</h3>
+          <p dir="rtl">موقع دليل للأماكن والخدمات</p>
+          <p class="en" dir="ltr">Directory website for places and services</p>
+          <div class="links"><a class="deploy" href="https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/daleel/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE">Deploy</a><a href="https://github.com/mashraf1997/daleel">GitHub</a></div>
+        </div>
+      </article>
+  </div></section>
+  <section><h2>ليه عُدّة؟</h2><div class="why">
+    <div><b>من غير اشتراك شهري</b><p>بتدفع السيرفر بس، والأدوات مجانية ومفتوحة المصدر برخصة MIT.</p></div>
+    <div><b>بياناتك عندك</b><p>كل حاجة على سيرفرك. مفيش طرف تالت شايف عملاءك أو طلباتك.</p></div>
+    <div><b>بالعربي من الأساس</b><p>واجهات من اليمين للشمال، ولهجات عربية، وأرقام وعملات محلية.</p></div>
+    <div><b>شغالين مع بعض</b><p>الطلب من وكيل بيعمل فاتورة في فاتورة وختم في ختم، والحجز بيروح لموعد.</p></div>
+  </div></section>
+</main>
+<footer class="wrap">Ouda · MIT · <a href="https://github.com/mashraf1997">github.com/mashraf1997</a></footer>
+</body>
+</html>

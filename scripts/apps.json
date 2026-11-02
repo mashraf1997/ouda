@@ -1,0 +1,19 @@
+{
+  "apps": [
+    { "id": "wakeel",  "sub": "chat",     "port": 8081, "setupVar": "SETUP_TOKEN", "extraEnv": ["ANTHROPIC_API_KEY"], "icon": "🤖", "en": "AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website", "ar": "موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك" },
+    { "id": "dukkan",  "sub": "shop",     "port": 8082, "setupVar": "SETUP_CODE",  "extraEnv": [], "icon": "🛒", "en": "WhatsApp ordering store and QR menu", "ar": "متجر طلبات على واتساب ومنيو QR" },
+    { "id": "mawid",   "sub": "book",     "port": 8083, "setupVar": "SETUP_CODE",  "extraEnv": [], "icon": "📅", "en": "Your own booking page", "ar": "صفحة حجز مواعيد" },
+    { "id": "nashr",   "sub": "posts",    "port": 8084, "setupVar": "SETUP_TOKEN", "extraEnv": ["ANTHROPIC_API_KEY"], "icon": "📣", "en": "AI-written social media posts, published on schedule", "ar": "بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي" },
+    { "id": "khatm",   "sub": "stamps",   "port": 8085, "setupVar": "SETUP_TOKEN", "extraEnv": [], "icon": "☕", "en": "Digital loyalty stamp card", "ar": "كارت ولاء ديجيتال بالأختام" },
+    { "id": "fatoora", "sub": "invoices", "port": 8086, "setupVar": "SETUP_TOKEN", "extraEnv": [], "icon": "🧾", "en": "Invoices and quotes in Arabic and English", "ar": "فواتير وعروض أسعار عربي وإنجليزي" },
+    { "id": "moallem", "sub": "classes",  "port": 8087, "setupVar": "SETUP_TOKEN", "extraEnv": [], "icon": "🎓", "en": "Attendance, fees and results for private tutors", "ar": "حضور ومصاريف ونتايج للمدرسين الخصوصيين" },
+    { "id": "daleel",  "sub": "guide",    "port": 8088, "setupVar": "SETUP_TOKEN", "extraEnv": [], "icon": "📍", "en": "Directory website for places and services", "ar": "موقع دليل للأماكن والخدمات" }
+  ],
+  "packs": {
+    "docker-compose.yml": { "en": "Everything", "ar": "كل الأدوات", "apps": ["wakeel", "dukkan", "mawid", "nashr", "khatm", "fatoora", "moallem", "daleel"] },
+    "packs/clinic.yml":   { "en": "Clinic and salon pack", "ar": "باقة العيادة والصالون", "apps": ["mawid", "wakeel", "fatoora", "nashr"] },
+    "packs/cafe.yml":     { "en": "Restaurant and café pack", "ar": "باقة المطعم والكافيه", "apps": ["dukkan", "wakeel", "khatm", "nashr"] },
+    "packs/tutor.yml":    { "en": "Teacher pack", "ar": "باقة المدرس", "apps": ["moallem", "fatoora", "nashr"] },
+    "packs/agency.yml":   { "en": "Agency pack", "ar": "باقة الوكالة", "apps": ["wakeel", "nashr", "fatoora", "daleel"] }
+  }
+}

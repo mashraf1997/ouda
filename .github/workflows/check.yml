@@ -1,0 +1,19 @@
+name: Check bundle
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Generated compose files are up to date
+        run: node scripts/generate.mjs && git diff --exit-code
+      - name: Compose files are valid
+        run: for f in docker-compose.yml packs/*.yml; do docker compose -f "$f" config -q; done
