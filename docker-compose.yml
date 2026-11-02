@@ -5,7 +5,7 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: wakeel (chat., :8081), dukkan (shop., :8082), mawid (book., :8083), nashr (posts., :8084), khatm (stamps., :8085), fatoora (invoices., :8086), moallem (classes., :8087), daleel (guide., :8088)
+# Tools: wakeel (chat., :8081), dukkan (shop., :8082), mawid (book., :8083), nashr (posts., :8084), khatm (stamps., :8085), fatoora (invoices., :8086), moallem (classes., :8087), daleel (guide., :8088), dor (queue., :8089), hader (team., :8090), raseed (cash., :8091), doroos (learn., :8092)
 services:
   caddy:
     image: caddy:2-alpine
@@ -19,6 +19,10 @@ services:
       - fatoora
       - moallem
       - daleel
+      - dor
+      - hader
+      - raseed
+      - doroos
     environment:
       - DOMAIN=${DOMAIN:-}
       - ACME_EMAIL=${ACME_EMAIL:-}
@@ -34,6 +38,10 @@ services:
       - "8086:8086"
       - "8087:8087"
       - "8088:8088"
+      - "8089:8089"
+      - "8090:8090"
+      - "8091:8091"
+      - "8092:8092"
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
@@ -57,7 +65,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"mawid","sub":"book","port":8083,"icon":"📅","en":"Your own booking page","ar":"صفحة حجز مواعيد"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"moallem","sub":"classes","port":8087,"icon":"🎓","en":"Attendance, fees and results for private tutors","ar":"حضور ومصاريف ونتايج للمدرسين الخصوصيين"},{"id":"daleel","sub":"guide","port":8088,"icon":"📍","en":"Directory website for places and services","ar":"موقع دليل للأماكن والخدمات"}];
+        var APPS = [{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"mawid","sub":"book","port":8083,"icon":"📅","en":"Your own booking page","ar":"صفحة حجز مواعيد"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"moallem","sub":"classes","port":8087,"icon":"🎓","en":"Attendance, fees and results for private tutors","ar":"حضور ومصاريف ونتايج للمدرسين الخصوصيين"},{"id":"daleel","sub":"guide","port":8088,"icon":"📍","en":"Directory website for places and services","ar":"موقع دليل للأماكن والخدمات"},{"id":"dor","sub":"queue","port":8089,"icon":"🎫","en":"Virtual queue: customers take a number by QR and wait anywhere","ar":"طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة"},{"id":"hader","sub":"team","port":8090,"icon":"⏱️","en":"Staff attendance by QR, leave and payroll","ar":"حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"doroos","sub":"learn","port":8092,"icon":"📚","en":"Sell your own online courses","ar":"بيع كورساتك أونلاين من موقعك"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -99,6 +107,18 @@ services:
         :8088 {
         	reverse_proxy daleel:3000
         }
+        :8089 {
+        	reverse_proxy dor:3000
+        }
+        :8090 {
+        	reverse_proxy hader:3000
+        }
+        :8091 {
+        	reverse_proxy raseed:3000
+        }
+        :8092 {
+        	reverse_proxy doroos:3000
+        }
         CADDY
         if [ -n "$$DOMAIN" ]; then
         cat >> /etc/caddy/Caddyfile <<'CADDY'
@@ -129,6 +149,18 @@ services:
         }
         guide.{$$DOMAIN} {
         	reverse_proxy daleel:3000
+        }
+        queue.{$$DOMAIN} {
+        	reverse_proxy dor:3000
+        }
+        team.{$$DOMAIN} {
+        	reverse_proxy hader:3000
+        }
+        cash.{$$DOMAIN} {
+        	reverse_proxy raseed:3000
+        }
+        learn.{$$DOMAIN} {
+        	reverse_proxy doroos:3000
         }
         CADDY
         fi
@@ -235,6 +267,55 @@ services:
     expose:
       - "3000"
 
+  dor:
+    image: ghcr.io/mashraf1997/dor:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - dor-data:/data
+    expose:
+      - "3000"
+
+  hader:
+    image: ghcr.io/mashraf1997/hader:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - hader-data:/data
+    expose:
+      - "3000"
+
+  raseed:
+    image: ghcr.io/mashraf1997/raseed:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - raseed-data:/data
+    expose:
+      - "3000"
+
+  doroos:
+    image: ghcr.io/mashraf1997/doroos:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+      - MAX_VIDEO_MB=${MAX_VIDEO_MB:-}
+    volumes:
+      - doroos-data:/data
+    expose:
+      - "3000"
+
 volumes:
   caddy-data:
   caddy-config:
@@ -246,3 +327,7 @@ volumes:
   fatoora-data:
   moallem-data:
   daleel-data:
+  dor-data:
+  hader-data:
+  raseed-data:
+  doroos-data:

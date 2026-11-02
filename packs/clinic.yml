@@ -5,16 +5,17 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: mawid (book., :8083), wakeel (chat., :8081), fatoora (invoices., :8086), nashr (posts., :8084)
+# Tools: mawid (book., :8083), dor (queue., :8089), wakeel (chat., :8081), fatoora (invoices., :8086), hader (team., :8090)
 services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on:
       - mawid
+      - dor
       - wakeel
       - fatoora
-      - nashr
+      - hader
     environment:
       - DOMAIN=${DOMAIN:-}
       - ACME_EMAIL=${ACME_EMAIL:-}
@@ -23,9 +24,10 @@ services:
       - "443:443"
       - "443:443/udp"
       - "8083:8083"
+      - "8089:8089"
       - "8081:8081"
       - "8086:8086"
-      - "8084:8084"
+      - "8090:8090"
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
@@ -49,7 +51,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"mawid","sub":"book","port":8083,"icon":"📅","en":"Your own booking page","ar":"صفحة حجز مواعيد"},{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
+        var APPS = [{"id":"mawid","sub":"book","port":8083,"icon":"📅","en":"Your own booking page","ar":"صفحة حجز مواعيد"},{"id":"dor","sub":"queue","port":8089,"icon":"🎫","en":"Virtual queue: customers take a number by QR and wait anywhere","ar":"طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة"},{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"hader","sub":"team","port":8090,"icon":"⏱️","en":"Staff attendance by QR, leave and payroll","ar":"حضور وانصراف الموظفين بـ QR وإجازات ومرتبات"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -70,14 +72,17 @@ services:
         :8083 {
         	reverse_proxy mawid:3000
         }
+        :8089 {
+        	reverse_proxy dor:3000
+        }
         :8081 {
         	reverse_proxy wakeel:3000
         }
         :8086 {
         	reverse_proxy fatoora:3000
         }
-        :8084 {
-        	reverse_proxy nashr:3000
+        :8090 {
+        	reverse_proxy hader:3000
         }
         CADDY
         if [ -n "$$DOMAIN" ]; then
@@ -89,14 +94,17 @@ services:
         book.{$$DOMAIN} {
         	reverse_proxy mawid:3000
         }
+        queue.{$$DOMAIN} {
+        	reverse_proxy dor:3000
+        }
         chat.{$$DOMAIN} {
         	reverse_proxy wakeel:3000
         }
         invoices.{$$DOMAIN} {
         	reverse_proxy fatoora:3000
         }
-        posts.{$$DOMAIN} {
-        	reverse_proxy nashr:3000
+        team.{$$DOMAIN} {
+        	reverse_proxy hader:3000
         }
         CADDY
         fi
@@ -114,6 +122,18 @@ services:
       - DEMO_MODE=${DEMO_MODE:-false}
     volumes:
       - mawid-data:/data
+    expose:
+      - "3000"
+
+  dor:
+    image: ghcr.io/mashraf1997/dor:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - dor-data:/data
     expose:
       - "3000"
 
@@ -142,16 +162,15 @@ services:
     expose:
       - "3000"
 
-  nashr:
-    image: ghcr.io/mashraf1997/nashr:latest
+  hader:
+    image: ghcr.io/mashraf1997/hader:latest
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - SETUP_TOKEN=${SETUP_TOKEN:-}
       - DEMO_MODE=${DEMO_MODE:-false}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
     volumes:
-      - nashr-data:/data
+      - hader-data:/data
     expose:
       - "3000"
 
@@ -159,6 +178,7 @@ volumes:
   caddy-data:
   caddy-config:
   mawid-data:
+  dor-data:
   wakeel-data:
   fatoora-data:
-  nashr-data:
+  hader-data:

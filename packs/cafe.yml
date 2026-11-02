@@ -5,7 +5,7 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: dukkan (shop., :8082), wakeel (chat., :8081), khatm (stamps., :8085), nashr (posts., :8084)
+# Tools: dukkan (shop., :8082), wakeel (chat., :8081), khatm (stamps., :8085), raseed (cash., :8091), nashr (posts., :8084)
 services:
   caddy:
     image: caddy:2-alpine
@@ -14,6 +14,7 @@ services:
       - dukkan
       - wakeel
       - khatm
+      - raseed
       - nashr
     environment:
       - DOMAIN=${DOMAIN:-}
@@ -25,6 +26,7 @@ services:
       - "8082:8082"
       - "8081:8081"
       - "8085:8085"
+      - "8091:8091"
       - "8084:8084"
     entrypoint: ["/bin/sh", "-c"]
     command:
@@ -49,7 +51,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
+        var APPS = [{"id":"dukkan","sub":"shop","port":8082,"icon":"🛒","en":"WhatsApp ordering store and QR menu","ar":"متجر طلبات على واتساب ومنيو QR"},{"id":"wakeel","sub":"chat","port":8081,"icon":"🤖","en":"AI customer service on WhatsApp, Instagram, Messenger, Telegram and your website","ar":"موظف ذكاء اصطناعي بيرد على واتساب وإنستجرام وماسنجر وتليجرام وموقعك"},{"id":"khatm","sub":"stamps","port":8085,"icon":"☕","en":"Digital loyalty stamp card","ar":"كارت ولاء ديجيتال بالأختام"},{"id":"raseed","sub":"cash","port":8091,"icon":"💰","en":"Cash book and customer credit for shops","ar":"دفتر الخزنة والشُكُك للمحلات"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -76,6 +78,9 @@ services:
         :8085 {
         	reverse_proxy khatm:3000
         }
+        :8091 {
+        	reverse_proxy raseed:3000
+        }
         :8084 {
         	reverse_proxy nashr:3000
         }
@@ -94,6 +99,9 @@ services:
         }
         stamps.{$$DOMAIN} {
         	reverse_proxy khatm:3000
+        }
+        cash.{$$DOMAIN} {
+        	reverse_proxy raseed:3000
         }
         posts.{$$DOMAIN} {
         	reverse_proxy nashr:3000
@@ -142,6 +150,18 @@ services:
     expose:
       - "3000"
 
+  raseed:
+    image: ghcr.io/mashraf1997/raseed:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+    volumes:
+      - raseed-data:/data
+    expose:
+      - "3000"
+
   nashr:
     image: ghcr.io/mashraf1997/nashr:latest
     restart: unless-stopped
@@ -161,4 +181,5 @@ volumes:
   dukkan-data:
   wakeel-data:
   khatm-data:
+  raseed-data:
   nashr-data:

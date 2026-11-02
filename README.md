@@ -3,7 +3,7 @@
 # Ouda · عُدّة
 
 **Every open-source tool a small business needs, on one server, in one click.**
-AI customer service, a WhatsApp store, bookings, social media, loyalty cards, invoices, a tutor manager and a directory website. Arabic and English. No monthly fees.
+AI customer service, a WhatsApp store, bookings, a virtual queue, social media, loyalty cards, invoices, a cash book, staff attendance and payroll, a tutor manager, course selling and a directory website. Arabic and English. No monthly fees.
 
 [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE)
 
@@ -23,8 +23,12 @@ AI customer service, a WhatsApp store, bookings, social media, loyalty cards, in
 | 🧾 | [**Fatoora**](https://github.com/mashraf1997/fatoora) | Invoices and quotes in Arabic and English | `invoices.` / `:8086` |
 | 🎓 | [**Moallem**](https://github.com/mashraf1997/moallem) | Attendance, fees and results for private tutors | `classes.` / `:8087` |
 | 📍 | [**Daleel**](https://github.com/mashraf1997/daleel) | Directory website for places and services | `guide.` / `:8088` |
+| 🎫 | [**Dor**](https://github.com/mashraf1997/dor) | Virtual queue: customers take a number by QR and wait anywhere | `queue.` / `:8089` |
+| ⏱️ | [**Hader**](https://github.com/mashraf1997/hader) | Staff attendance by QR, leave and payroll | `team.` / `:8090` |
+| 💰 | [**Raseed**](https://github.com/mashraf1997/raseed) | Cash book and customer credit for shops | `cash.` / `:8091` |
+| 📚 | [**Doroos**](https://github.com/mashraf1997/doroos) | Sell your own online courses | `learn.` / `:8092` |
 
-They work together: Wakeel books into **Mawid** and takes orders from the **Dukkan** catalog, and every order can create an invoice in **Fatoora** and a stamp in **Khatm** (paste their order links into Wakeel's notification webhooks).
+They work together: Wakeel books into **Mawid** and takes orders from the **Dukkan** catalog, and every order can create an invoice in **Fatoora**, a stamp in **Khatm** and money-in in **Raseed** (paste their order links into the webhook settings).
 
 ## Packs
 
@@ -32,10 +36,11 @@ Not every business needs everything. Each pack installs only what it needs:
 
 | Pack | Tools | Deploy |
 |---|---|---|
-| **Everything** | wakeel, dukkan, mawid, nashr, khatm, fatoora, moallem, daleel | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
-| **Clinic and salon pack** | mawid, wakeel, fatoora, nashr | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/clinic.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
-| **Restaurant and café pack** | dukkan, wakeel, khatm, nashr | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/cafe.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
-| **Teacher pack** | moallem, fatoora, nashr | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/tutor.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
+| **Everything** | wakeel, dukkan, mawid, nashr, khatm, fatoora, moallem, daleel, dor, hader, raseed, doroos | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/docker-compose.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
+| **Clinic and salon pack** | mawid, dor, wakeel, fatoora, hader | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/clinic.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
+| **Restaurant and café pack** | dukkan, wakeel, khatm, raseed, nashr | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/cafe.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
+| **Shop pack** | dukkan, raseed, khatm, hader, fatoora | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/shop.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
+| **Teacher pack** | moallem, doroos, fatoora, nashr | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/tutor.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
 | **Agency pack** | wakeel, nashr, fatoora, daleel | [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/mashraf1997/ouda/main/packs/agency.yml&REFERRALCODE=YOUR_REFERRAL_CODE) |
 
 ## After deploying
@@ -55,7 +60,7 @@ Not every business needs everything. Each pack installs only what it needs:
 | `ANTHROPIC_API_KEY` | Claude key for Wakeel and Nashr (each can also use Ollama or any OpenAI-compatible model) |
 | `DEMO_MODE` | `true` turns every tool into a public demo that resets itself |
 
-**Server size:** each tool uses about 60–100 MB of memory. The full bundle runs comfortably on a VPS with 2 GB RAM; packs need less.
+**Server size:** each tool uses about 60–100 MB of memory. A pack of four or five tools runs on a VPS with 1–2 GB RAM; the full bundle of twelve is comfortable with 4 GB.
 
 ## Updating
 
@@ -89,8 +94,12 @@ MIT
 - 🧾 **fatoora:** فواتير وعروض أسعار عربي وإنجليزي
 - 🎓 **moallem:** حضور ومصاريف ونتايج للمدرسين الخصوصيين
 - 📍 **daleel:** موقع دليل للأماكن والخدمات
+- 🎫 **dor:** طابور ذكي: العميل ياخد رقم بـ QR ويستنى في أي حتة
+- ⏱️ **hader:** حضور وانصراف الموظفين بـ QR وإجازات ومرتبات
+- 💰 **raseed:** دفتر الخزنة والشُكُك للمحلات
+- 📚 **doroos:** بيع كورساتك أونلاين من موقعك
 
-وفيه **باقات** جاهزة: باقة العيادة والصالون، باقة المطعم والكافيه، باقة المدرس، باقة الوكالة.
+وفيه **باقات** جاهزة: باقة العيادة والصالون، باقة المطعم والكافيه، باقة المحل، باقة المدرس، باقة الوكالة.
 
 **بعد التركيب:** افتح `http://IP-السيرفر` هتلاقي صفحة فيها لينك كل أداة. ولو عندك دومين، حط `DOMAIN` وكل أداة هتشتغل على subdomain بشهادة HTTPS مجانية.
 

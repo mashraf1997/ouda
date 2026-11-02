@@ -5,13 +5,14 @@
 # With a domain:    point *.example.com and example.com at the server, set DOMAIN=example.com,
 #                   and every tool gets https://<name>.example.com with automatic certificates.
 #
-# Tools: moallem (classes., :8087), fatoora (invoices., :8086), nashr (posts., :8084)
+# Tools: moallem (classes., :8087), doroos (learn., :8092), fatoora (invoices., :8086), nashr (posts., :8084)
 services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on:
       - moallem
+      - doroos
       - fatoora
       - nashr
     environment:
@@ -22,6 +23,7 @@ services:
       - "443:443"
       - "443:443/udp"
       - "8087:8087"
+      - "8092:8092"
       - "8086:8086"
       - "8084:8084"
     entrypoint: ["/bin/sh", "-c"]
@@ -47,7 +49,7 @@ services:
         <p class="note">لو عندك دومين، حط <code>DOMAIN</code> في إعدادات الحاوية، وكل أداة هتشتغل على subdomain بشهادة HTTPS تلقائي. With a domain, set <code>DOMAIN</code> and every tool gets its own HTTPS subdomain.</p>
         </main>
         <script>
-        var APPS = [{"id":"moallem","sub":"classes","port":8087,"icon":"🎓","en":"Attendance, fees and results for private tutors","ar":"حضور ومصاريف ونتايج للمدرسين الخصوصيين"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
+        var APPS = [{"id":"moallem","sub":"classes","port":8087,"icon":"🎓","en":"Attendance, fees and results for private tutors","ar":"حضور ومصاريف ونتايج للمدرسين الخصوصيين"},{"id":"doroos","sub":"learn","port":8092,"icon":"📚","en":"Sell your own online courses","ar":"بيع كورساتك أونلاين من موقعك"},{"id":"fatoora","sub":"invoices","port":8086,"icon":"🧾","en":"Invoices and quotes in Arabic and English","ar":"فواتير وعروض أسعار عربي وإنجليزي"},{"id":"nashr","sub":"posts","port":8084,"icon":"📣","en":"AI-written social media posts, published on schedule","ar":"بوستات سوشيال بالذكاء الاصطناعي ونشر تلقائي"}];
         var h = location.hostname;
         var named = !/^[0-9.]+$$/.test(h) && h.indexOf(':') < 0 && h !== 'localhost';
         document.getElementById('apps').innerHTML = APPS.map(function (a) {
@@ -68,6 +70,9 @@ services:
         :8087 {
         	reverse_proxy moallem:3000
         }
+        :8092 {
+        	reverse_proxy doroos:3000
+        }
         :8086 {
         	reverse_proxy fatoora:3000
         }
@@ -83,6 +88,9 @@ services:
         }
         classes.{$$DOMAIN} {
         	reverse_proxy moallem:3000
+        }
+        learn.{$$DOMAIN} {
+        	reverse_proxy doroos:3000
         }
         invoices.{$$DOMAIN} {
         	reverse_proxy fatoora:3000
@@ -106,6 +114,19 @@ services:
       - DEMO_MODE=${DEMO_MODE:-false}
     volumes:
       - moallem-data:/data
+    expose:
+      - "3000"
+
+  doroos:
+    image: ghcr.io/mashraf1997/doroos:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SETUP_TOKEN=${SETUP_TOKEN:-}
+      - DEMO_MODE=${DEMO_MODE:-false}
+      - MAX_VIDEO_MB=${MAX_VIDEO_MB:-}
+    volumes:
+      - doroos-data:/data
     expose:
       - "3000"
 
@@ -138,5 +159,6 @@ volumes:
   caddy-data:
   caddy-config:
   moallem-data:
+  doroos-data:
   fatoora-data:
   nashr-data:
